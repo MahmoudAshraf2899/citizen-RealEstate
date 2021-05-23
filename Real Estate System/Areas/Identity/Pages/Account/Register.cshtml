@@ -1,0 +1,104 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div style="margin-top:20px;">
+<div class="row" style="justify-content: center;">
+    <div class="col-md-4">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">          
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.UserName"></label>
+                <input asp-for="Input.UserName" class="form-control" />
+                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.PhoneNumber"></label>
+                <input asp-for="Input.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.PhoneNumber2"></label>
+                <input asp-for="Input.PhoneNumber2" class="form-control" />
+                <span asp-validation-for="Input.PhoneNumber2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="form-group">
+                        <label asp-for="Input.IsAdmin"></label>
+                        <input type="checkbox" asp-for="Input.IsAdmin" />
+                    </div>
+                }
+                @if (User.IsInRole("Admin") || User.IsInRole("Sales"))
+                {
+                    <div class="form-group">
+                        <label asp-for="Input.IsSales"></label>
+                        <input type="checkbox" asp-for="Input.IsSales" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.salesMember"></label>
+                        <input type="checkbox" asp-for="Input.salesMember" />
+                    </div>
+                }
+                @if (User.IsInRole("Admin") || User.IsInRole("Engineer"))
+                {
+                    <div class="form-group">
+                        <label asp-for="Input.IsEngineer"></label>
+                        <input type="checkbox" asp-for="Input.IsEngineer" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Input.engineerMember"></label>
+                        <input type="checkbox" asp-for="Input.engineerMember" />
+                    </div>
+                }
+                @if (User.IsInRole("Admin") || User.IsInRole("CallCenter"))
+                {
+                    <div class="form-group">
+                        <label>Call Center Team Leader</label>
+                        <input type="checkbox" asp-for="Input.IsCallCenter" />
+                    </div>
+                    <div class="form-group">
+                        <label>Call Center Member</label>
+                        <input type="checkbox" asp-for="Input.callcenterMember" />
+                    </div>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="form-group">
+                        <label asp-for="Input.IsWorkers"></label>
+                        <input type="checkbox" asp-for="Input.IsWorkers" />
+                    </div>
+                }
+            <button type="submit" class="btn btn-success btn-lg btn-block">Sign Up</button>
+        </form>
+    </div>
+    @*<div class="col-md-6 col-md-offset-2">
+        <section>
+            <h4>Use another service to log in.</h4>
+            <hr />
+            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,
+        </section>
+
+    </div>*@
+</div>
+    </div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

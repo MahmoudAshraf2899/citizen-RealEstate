@@ -1,0 +1,86 @@
+﻿@model cloudscribe.Pagination.Models.PagedResult<Employess_and_workers>
+@{
+    ViewData["Title"] = "Index";
+    ViewData["Controller"] = "Employessandworkers";
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center" style="margin-top:20px; margin-bottom:20px;">Workers Department</h1>
+<hr style="margin-bottom:65px;" />
+
+<form asp-action="Index" method="get" style="margin-left:-10px;">
+    <div class="container">
+        <div class="simple-search-wrap">
+            <div class="hero-search-2">
+                <div class="pk-input-group">
+                    <input type="text" style="background-color:#EEE;" name="searchEngine" class="email form-control" placeholder="Search In Workers Team ">
+                    <button class="btn btn-black" type="submit">Go & Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<p style="margin-top:20px; margin-bottom:20px;">
+    <a asp-action="Create" class="btn btn-success">Add New Worker</a>
+</p>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewBag.FullNameSortParam"
+                   asp-route-pageNumber="@Model.PageNumber">FullName</a>
+            </th>
+            <th>
+                Age
+            </th>
+            <th>
+                Phone
+            </th>
+            <th>
+                Salary
+            </th>
+
+            <th>
+                Email
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Data)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.ActionLink("", "Edit", new { id = item.Id }, new { @class = "fas fa-edit" })  |
+                    @Html.ActionLink("", "Details", new { id = item.Id }, new { @class = "fas fa-asterisk" }) |
+                    @Html.ActionLink("", "Delete", new { id = item.Id }, new { @class = "fas fa-trash-alt" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<partial name="_PaginationPartial" view-data="ViewData" model="Model" />

@@ -1,0 +1,109 @@
+﻿@model cloudscribe.Pagination.Models.PagedResult<Sales>
+@{
+    ViewData["Title"] = "Index";
+    ViewData["Controller"] = "Sales";
+    ViewData["Action"] = "Index";
+}
+<h1 class="text-center" style="margin-top:20px; margin-bottom:20px;">Sales Department</h1>
+<hr style="margin-bottom:65px;" />
+<form asp-action="Index" method="get" style="margin-left:-10px;">
+    <div class="container">
+        <div class="simple-search-wrap">
+            <div class="hero-search-2">
+                <div class="pk-input-group">
+                    <input type="text" style="background-color:#EEE;" name="searchEngine" class="email form-control" placeholder="Search In Sales Team ">
+                    <button class="btn btn-black" type="submit">Go & Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="links" style="margin-bottom:40px; margin-top:20px;">
+    @if (User.IsInRole("Admin") || User.IsInRole("Sales"))
+    {
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Add New Sales Member</a>
+        </p>
+    }
+    <p>
+        <a asp-controller="Dublex" asp-action="Create" class="btn btn-warning">Add New Appartment&Dublex</a>
+    </p>
+    <p>
+        <a asp-controller="Client" asp-action="Create" class="btn btn-info">Add New User's Information</a>
+    </p>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            @*<th>
+                    Department Name
+                </th>*@
+            <th>
+                FullName
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-sortAge="@ViewBag.AgeSortParam"
+                   asp-route-pageNumber="@Model.PageNumber">Age</a>
+            </th>
+            <th>
+                Phone
+            </th>
+            <th>
+                Salary
+            </th>
+            <th>
+                Email
+            </th>
+
+            <th>
+                Address
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Data)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Department.departmentName)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Sales"))
+                {
+                    <td>
+                        @Html.ActionLink("", "Edit", new { id = item.Id }, new { @class = "fas fa-edit" })  |
+                        @Html.ActionLink("", "Details", new { id = item.Id }, new { @class = "fas fa-asterisk" }) |
+                        @Html.ActionLink("", "Delete", new { id = item.Id }, new { @class = "fas fa-trash-alt" })
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+<partial name="_PaginationPartial" view-data="ViewData" model="Model" />
+

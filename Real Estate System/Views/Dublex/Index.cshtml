@@ -1,0 +1,104 @@
+﻿@model IEnumerable<Real_Estate_System.Models.Dublex>
+
+@{
+    ViewData["Title"] = "Index";
+    ViewData["Controller"] = "Dublex";
+    ViewData["Action"] = "Index";
+}
+<h2 class="text-center" style="margin-top:20px; margin-bottom:20px;">Recent Properties For Sale & Rate</h2>
+<p class="text-center" style="margin-bottom:50px;">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum<br /> deleniti atque corrupti quos dolores</p>
+@if (User.IsInRole("Admin") || User.IsInRole("Sales") || User.IsInRole("salesMember"))
+{
+    <p style="margin-top:50px; margin-bottom:50px;">
+        <a asp-action="Create"  class="btn btn-success">Add New Apartment</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Area
+            </th>
+            <th>
+                Payment
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Informations
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Phone
+            </th>
+            <th>
+                Photo
+            </th>
+            @if (User.IsInRole("Admin") || User.IsInRole("Sales"))
+            {
+                <th>Actions</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Area)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Payment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Informations)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    <div class="footer-first">
+                        <div class="foot-location">
+                            @{ if (item.ImageUrl != null)
+                                {
+                                    string allFilesName = item.ImageUrl.Split("$$##")[0];
+                                    <img src="~/uploads/@allFilesName" style="width:373px; height:188px;" class="img-rounded" />
+
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="footer-flex">
+                        @Html.ActionLink("View", "Details", new { id = item.Id }, new { @class = "prt-view" })
+                         
+                    </div>
+                    @*@{ if (item.ImageUrl != null)
+                        {
+                            string allFilesName = item.ImageUrl.Split("$$##")[0];
+                            <img src="~/uploads/@allFilesName" style="width:373px; height:188px;" class="img-rounded" />
+
+                        }
+                    }*@
+                </td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Sales"))
+                {
+                    <td>
+                        @Html.ActionLink("", "Edit", new { id = item.Id }, new { @class = "fas fa-edit" })  |
+                        @Html.ActionLink("", "Details", new { id = item.Id }, new { @class = "fas fa-asterisk" }) |
+                        @Html.ActionLink("", "Delete", new { id = item.Id }, new { @class = "fas fa-trash-alt" })
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+@*<partial name="_PaginationPartial" view-data="ViewData" model="Model" />*@
